@@ -59,16 +59,6 @@ class GiftCard extends ItemAbstract implements ProcessorInterface
                 continue;
             }
 
-            $amounts[] = [
-                HttpClient::IS_SYSTEM_CURRENCY => true,
-                HttpClient::CURRENCY => $this->getContext()->getSalesOrder()->getBaseCurrencyCode(),
-                HttpClient::EXCHANGE_RATE => 1,
-                HttpClient::PRICE_ORIGINAL_GROSS => -$giftCard['amount'],
-                HttpClient::SURCHARGE => 0,
-                HttpClient::DISCOUNT => 0,
-                HttpClient::IS_PERCENTAGE => false
-            ];
-
             $request[] = [
                 HttpClient::TYPE_ID => HttpClient::ITEM_TYPE_GIFT_CARD,
                 HttpClient::QUANTITY => 1,
@@ -78,7 +68,17 @@ class GiftCard extends ItemAbstract implements ProcessorInterface
                 HttpClient::VAT_FIELD => 0,
                 HttpClient::VAT_RATE => $vatRate,
                 HttpClient::ORDER_ITEM_NAME => __('Gift Card: (%1)', $giftCard['code'] ?? 'N/A'),
-                HttpClient::AMOUNTS => $amounts,
+                HttpClient::AMOUNTS => [
+                    [
+                        HttpClient::IS_SYSTEM_CURRENCY => true,
+                        HttpClient::CURRENCY => $this->getContext()->getSalesOrder()->getBaseCurrencyCode(),
+                        HttpClient::EXCHANGE_RATE => 1,
+                        HttpClient::PRICE_ORIGINAL_GROSS => -$giftCard['amount'],
+                        HttpClient::SURCHARGE => 0,
+                        HttpClient::DISCOUNT => 0,
+                        HttpClient::IS_PERCENTAGE => false
+                    ]
+                ],
             ];
         }
 
