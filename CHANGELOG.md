@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.3
+- **Compatibility**: Added support for Amasty Gift Card product type import/export.
+
 ### Version 1.0.2
 - **Compatibility**: Compatibility with Magento [OS/AC] 2.4.5 and PHP 8
 

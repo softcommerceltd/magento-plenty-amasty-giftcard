@@ -13,4 +13,20 @@
             </argument>
         </arguments>
     </type>
+    <!-- item export profile service -->
+    <type name="SoftCommerce\PlentyItemProfile\Model\ItemExportService\Generator">
+        <arguments>
+            <argument name="typeGenerators" xsi:type="array">
+                <item name="amgiftcard" xsi:type="object">SoftCommerce\PlentyAmastyGiftCard\Model\ItemExportService\TypeGenerator\AmGiftCard</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- item import profile service -->
+    <type name="SoftCommerce\PlentyItemProfile\Model\ItemImportService">
+        <arguments>
+            <argument name="typeProcessors" xsi:type="array">
+                <item name="amgiftcard" xsi:type="object">SoftCommerce\PlentyAmastyGiftCard\Model\ItemImportService\TypeProcessor\AmGiftCard</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
