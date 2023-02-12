@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.4
+- **Compatibility**: Compatibility with `SoftCommerce_PlentyOrderProfile` version 1.4.2.
+
 ### Version 1.0.3
 - **Compatibility**: Added support for Amasty Gift Card product type import/export.
 
