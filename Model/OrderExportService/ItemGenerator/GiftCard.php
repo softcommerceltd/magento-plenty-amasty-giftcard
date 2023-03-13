@@ -11,7 +11,9 @@ namespace SoftCommerce\PlentyAmastyGiftCard\Model\OrderExportService\ItemGenerat
 use Amasty\GiftCardAccount\Model\GiftCardExtension\Order\Order as GiftCardOrder;
 use Magento\Framework\Exception\LocalizedException;
 use SoftCommerce\PlentyOrderProfile\Model\OrderExportService\Generator\Order\Items\ItemAbstract;
+use SoftCommerce\PlentyOrderProfile\Model\OrderExportService\Processor\Order as OrderProcessor;
 use SoftCommerce\PlentyOrderRestApi\Model\OrderInterface as HttpClient;
+use SoftCommerce\PlentyOrderRestApi\Model\OrderInterface as HttpOrderClient;
 use SoftCommerce\Profile\Model\ServiceAbstract\ProcessorInterface;
 
 /**
@@ -39,7 +41,9 @@ class GiftCard extends ItemAbstract implements ProcessorInterface
      */
     private function generate(): void
     {
-        if ($this->getContext()->getClientOrder()->getItemByTypeId(HttpClient::ITEM_TYPE_GIFT_CARD)
+        $context = $this->getContext();
+
+        if ($context->getClientOrder()->getItemByTypeId(HttpClient::ITEM_TYPE_GIFT_CARD)
             || !$giftCardOrder = $this->getGiftCardOrder()
         ) {
             return;
@@ -48,22 +52,26 @@ class GiftCard extends ItemAbstract implements ProcessorInterface
         $vatRate = 0;
         if ($this->scopeConfig->getValue(self::XML_PATH_DISCOUNT_INCLUDES_TAX)) {
             $vatRate = $this->getSalesOrderTaxRate->getTaxRate(
-                (int) $this->getContext()->getSalesOrder()->getEntityId()
+                (int) $context->getSalesOrder()->getEntityId()
             );
         }
 
-        $request = [];
+        $referrerId = (float) $context->storeConfig()->getReferrerIdByStoreId(
+            (int) $context->getSalesOrder()->getStoreId()
+        );
+
         /** @var array $giftCard */
         foreach ($giftCardOrder->getGiftCards() as $giftCard) {
             if (!isset($giftCard['amount'])) {
                 continue;
             }
 
-            $request[] = [
+            $request = [
                 HttpClient::TYPE_ID => HttpClient::ITEM_TYPE_GIFT_CARD,
+                HttpClient::REFERRER_ID => $referrerId,
                 HttpClient::QUANTITY => 1,
                 HttpClient::COUNTRY_VAT_ID => $this->getCountryId(
-                    $this->getContext()->getSalesOrder()->getBillingAddress()->getCountryId()
+                    $context->getSalesOrder()->getBillingAddress()->getCountryId()
                 ),
                 HttpClient::VAT_FIELD => 0,
                 HttpClient::VAT_RATE => $vatRate,
@@ -80,11 +88,13 @@ class GiftCard extends ItemAbstract implements ProcessorInterface
                     ]
                 ],
             ];
-        }
 
-        if ($request) {
-            $this->getRequestStorage()->setData($request);
-            $this->getContext()->getClientOrder()->setIsDiscountApplied(true);
+            $context->getRequestStorage()->addData(
+                $request,
+                [OrderProcessor::TYPE_ID, HttpOrderClient::ORDER_ITEMS]
+            );
+
+            $context->getClientOrder()->setIsDiscountApplied(true);
         }
     }
 
@@ -95,6 +105,6 @@ class GiftCard extends ItemAbstract implements ProcessorInterface
     private function getGiftCardOrder(): ?GiftCardOrder
     {
         $extensionAttributes = $this->getContext()->getSalesOrder()->getExtensionAttributes();
-        return $extensionAttributes ? $extensionAttributes->getAmGiftcardOrder() : null;
+        return $extensionAttributes?->getAmGiftcardOrder();
     }
 }
