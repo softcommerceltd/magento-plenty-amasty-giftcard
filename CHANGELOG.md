@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.7
+- **Enhancement**: Removed composer requirements for `amasty/module-gift-card`
+
 ### Version 1.0.6
 - **Compatibility**: Add compatibility for PHP 8.2 and Magento 2.4.6-p1 #2
 
