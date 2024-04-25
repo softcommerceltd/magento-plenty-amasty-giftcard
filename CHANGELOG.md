@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.8
+- **Compatibility**: Compatibility with PHP 8.3
+
 ### Version 1.0.7
 - **Enhancement**: Removed composer requirements for `amasty/module-gift-card`
 
