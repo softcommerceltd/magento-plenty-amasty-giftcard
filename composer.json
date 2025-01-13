@@ -2,7 +2,7 @@
     "name": "softcommerce/module-plenty-amasty-giftcard",
     "description": "SoftCommerce -- PlentyMarkets - Amasty Gift Card Module.",
     "require": {
-        "php": "~8.0.0||~8.1.0||~8.2.0||~8.3.0",
+        "php": "~8.0.0||~8.1.0||~8.2.0||~8.3.0||~8.4.0",
         "softcommerce/module-plenty-order-profile": "*"
     },
     "type": "magento2-module",
@@ -16,5 +16,5 @@
             "SoftCommerce\\PlentyAmastyGiftCard\\": ""
         }
     },
-    "version": "1.0.8"
+    "version": "1.0.9"
 }
