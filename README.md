@@ -1,5 +1,5 @@
 ## About
-Magento <> PlentyMarkets Connector. Amasty Gift Card - Order profile module.
+Magento <> PlentyONE Connector. Amasty Gift Card - Order profile module.
 
 ## Purpose
 Used to manage order item export for Amasty Gift Cards.
