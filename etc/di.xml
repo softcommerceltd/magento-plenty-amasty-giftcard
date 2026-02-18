@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © Soft Commerce Ltd. All rights reserved.
+ * Copyright © Byte8 Ltd (formerly Soft Commerce). All rights reserved.
  * See LICENSE.txt for license details.
  */
 -->
@@ -18,10 +18,10 @@
         </arguments>
     </virtualType>
     <!-- item export profile service -->
-    <type name="SoftCommerce\PlentyItemProfile\Model\ItemExportService\Generator">
+    <type name="SoftCommerce\PlentyItemProfile\Model\ItemExportService\Collector\CompositeCommandCollector">
         <arguments>
-            <argument name="typeGenerators" xsi:type="array">
-                <item name="amgiftcard" xsi:type="object">SoftCommerce\PlentyAmastyGiftCard\Model\ItemExportService\TypeGenerator\AmGiftCard</item>
+            <argument name="collectors" xsi:type="array">
+                <item name="amgiftcard" xsi:type="object">SoftCommerce\PlentyAmastyGiftCard\Model\ItemExportService\Collector\AmGiftCardCommandCollector</item>
             </argument>
         </arguments>
     </type>
